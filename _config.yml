@@ -1,11 +1,11 @@
 # ---------------------------
 # Hexo Theme Solitude
-# Author: Ever Fu
+# Author: 伍十七(@everfu)
 # Github: https://github.com/everfu/hexo-theme-solitude
 #
 # Guide: https://solitude.js.org
 # You can get more detailed help from the guide
-# 指南：https://solitude.js.org
+# 指南：https://solitude.js.org/zh
 # 你可以从指南中获取更详细的帮助
 #
 # sponsor: https://ko-fi.com/everfu
@@ -21,7 +21,7 @@ site:
   name:
     class: text # text / i_class / img
     custom: Solitude # Solitude / fas fa-ghost / /img/pwa/favicon.ico
-  icon: /img/pwa/favicon.ico # Site icon / 网站图标
+  icon: /img/pwa/favicon.png # Site icon / 网站图标
 # --------------------------- end ---------------------------
 
 # --------------------------- start ---------------------------
@@ -69,8 +69,11 @@ nav:
 hometop:
   enable: false
   banner:
-    title: # 宁静致远 <br> 热爱生活 # 标题
-    url: Hexo Theme Solitude # 小字
+    title: 分享技术<br >与科技生活 # 大字
+    desc: 一个热爱生活的人 # 小字
+      # - 我只是一个普通的程序员
+      # - 但我有一个不平凡的梦想
+      # - 我希望能够改变世界
     icon:
       # HTML: # name
       #   img: https://i.postimg.cc/vBWVnY8q/html.png # url
@@ -129,28 +132,21 @@ aside:
   # --------------------------- start ---------------------------
   # Information card
   # 信息卡
-  card:
-    style: 0 # 0: default 1: style 1 2: style 2
+  my_card:
     author:
-      img: /img/avatar.avif # url
+      img: /img/logo.png # url
       sticker: # url, 24x24 size
-    url: /about/ # link / 点击头像跳转链接
-    background: # https://s3.qjqq.cn/47/663af296b85f4.webp!color # Background image(Invalid if style is 0)
-    # Content(Invalid if style is 0)
-    # 内容(Style 0 无效)
+    # 介绍 / Introduction
+    description: 只有迎风，风筝才能飞得更高。
+    # 内容 / Content
     content: # 这是我的博客 / This is my Blog
-    content2: # 一个热爱生活的人 / A person who loves life
-    # Style 2 is invalid
-    # Style 2 无效
-    sayhello:
+    state:
       morning: ✨ 早上好，新的一天开始了
       noon: 🍲 午餐时间
       afternoon: 🌞 下午好
       night: 早点休息
       goodnight: 晚安 😴
-    # Style 2 is invalid, Triggered when sayhello is clicked.
-    # Style 2 无效, 点击 sayhello 时触发
-    sayhello2:
+    witty_words:
       # - 你可以的
       # - 你一定可以的
       # - 祝你好运，陌生人
@@ -255,9 +251,6 @@ page:
 # 文章默认设置
 post:
   default:
-    # The cover of the article is displayed
-    # 文章封面显示
-    top_cover: true
     # Default image when no cover is set
     # 未设置封面时的默认图片
     cover:
@@ -269,11 +262,7 @@ post:
     # 版权
     copyright:
       enable: true
-      author:
-        url: /about/ # Author link
-        # Default use site.icon
-        # 默认使用 site.icon
-        img:
+      author: /img/logo.png # url
       # License
       # 许可证
       license: CC BY-NC-SA 4.0
@@ -380,7 +369,7 @@ font:
   code-font-size: 16px
   # Global font
   # 全局字体
-  font-family: "PingFang SC, Hiragino Sans GB, Microsoft YaHei"
+  font-family: "PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif"
   # Code font
   # 代码字体
   code-font-family: '"monospace", monospace'
@@ -548,7 +537,7 @@ rightside:
 # Footer
 # 页脚
 footer:
-  # 信息社交图标
+  # 社交图标
   information:
     author: false # img url / false
     left:
@@ -557,6 +546,7 @@ footer:
     right:
       # Bilibili: https://space.bilibili.com/1329819902 || fab fa-bilibili
       # Douyin: https://v.douyin.com/iJsLc8jt/ || fab fa-tiktok
+  # 友情链接
   group:
     # 导航:
     #   Archives: /archives/
@@ -569,8 +559,6 @@ footer:
 
   # 随机友链
   randomlink: false # 随机友链
-  # 许可证
-  license: # https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans # 许可证
 
   # 备案
   beian:
@@ -581,12 +569,19 @@ footer:
     #   url: https://beian.miit.gov.cn/
 
   # 页脚信息文字
-  # 请不要删除主题信息，这是对作者的尊重
   links:
-    - name: Theme
-      url: https://github.com/everfu/hexo-theme-solitude
     # - name: RSS
     #   url: /atom.xml
+    # - name: License
+    #   url: https://github.com/everfu/hexo-theme-solitude/blob/main/LICENSE
+    #   icon:
+    #     - fas fa-copyright
+    #     - fab fa-creative-commons-by
+    #     - fab fa-creative-commons-nc
+    #     - fab fa-creative-commons-nd
+    # - name: boringbay
+    #   url: https://boringbay.com/
+    #   img: https://boringbay.com/api/badge/www.efu.me
 # --------------------------- end ---------------------------
 
 # --------------------------- start ---------------------------
@@ -813,6 +808,9 @@ comment:
   # Whether to display the comment count
   # 显示评论数
   count: false
+  # Sidebar displays the total number of comments
+  # Sidebar 显示总评论数
+  sidebar: false
   # PV
   pv: false
   # Avatar
@@ -871,17 +869,27 @@ giscus:
 # Search
 search:
   enable: false
-  # type: 使用的搜索引擎 / search engine
-  type: local # local / algolia
+  type: # local / algolia / docsearch
   tags:
     # - Solitude
     # - Hexo
+  # Algolia
   algolia:
     # hits:
     #   per_page: 6
+  
+  # Local search
   local:
     preload: false
     CDN: # url: search.xml
+  
+  # DocSearch
+  # https://docsearch.algolia.com/
+  docsearch: 
+    appId: 
+    apiKey: 
+    indexName: 
+    option: 
 # --------------------------- end ---------------------------
 
 # --------------------------- start ---------------------------
@@ -916,11 +924,12 @@ envelope:
 # --------------------------- end ---------------------------
 
 # --------------------------- start ---------------------------
-# Says Page
+# Brevity Page
 # 即可短文
-says:
+brevity:
   enable: false
   home_mini: false
+  music: false
   page: /essay/
   style: 1
   strip: 30
