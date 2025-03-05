@@ -101,15 +101,18 @@ easeTransition = 375ms ease-in 0.2s
 
   .gallery-item
     min-height 5rem
-    width 24.97%
+    width 24.99%
     padding 4px
     position relative
 
-    +maxWidth1200()
-      width 32.97%
+    +maxWidth1024()
+      width 33.3%
 
     +maxWidth768()
-      width 49.97%
+      width 49.9%
+
+    +minWidth2000()
+      width: 20%
 
     img
       max-width 100%
