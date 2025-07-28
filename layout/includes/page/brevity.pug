@@ -34,7 +34,8 @@ if theme.brevity.enable
                                 meting-js(server=item.aplayer.server type="song" id=item.aplayer.id mutex="true" preload="none" theme="var(--efu-main)" data-lrctype="0")
 
                         if item.video
-                            .bber-video
+                            .bber-video-wrapper
+                              .bber-video
                                 if item.video.player
                                     video(src=item.video.player controls="controls" style="object-fit: cover;")
                                 if item.video.bilibili
