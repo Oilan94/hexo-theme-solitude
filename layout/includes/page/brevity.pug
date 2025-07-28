@@ -35,11 +35,7 @@ if theme.brevity.enable
                                     video(src=item.video.player controls="controls" style="object-fit: cover;")
                                 if item.video.bilibili
                                     iframe(src='//player.bilibili.com/player.html?autoplay=0&bvid=' + item.video.bilibili scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
-                                if item.video.yt 
-                                    iframe(src='//youtube.com/embed/' + item.video.yt scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
-                                if item.video.dy
-                                    iframe(src='https://www.tiktok.com/player/v1' + item.video.dy scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
-                        
+
                         if theme.brevity.style === 1
                             hr
                             .bber-bottom
