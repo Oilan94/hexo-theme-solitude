@@ -1,4 +1,4 @@
-[English](README_en-US.md)丨简体中文丨[繁体中文](README_zh-Hant.md)
+[English](README_en-US.md)丨简体中文丨[繁体中文](README_zh-Hant.md) 丨 [Español](README_es-ES.md)
 
 <div align="center">
 
@@ -55,6 +55,23 @@
 
 [![Discord](https://img.shields.io/discord/1266610921942548553?logo=discord&label=discord&logoColor=white)](https://discord.gg/HZXAnK4Sut)
 [![QQ 群](https://img.shields.io/badge/QQ%20群-948375336-FFD700?logo=Tencent-QQ&logoColor=white)](https://qm.qq.com/q/mxfomMvJPG)
+
+## 赞助商
+
+<a href="https://edgeone.ai/zh?from=github">
+   <img src="./.github/edgeone.avif" width="250">
+</a>
+
+[本项目 CDN 加速及安全防护由 Tencent EdgeOne 赞助](https://edgeone.ai/zh?from=github)
+
+---
+
+<a href="https://yxvm.com/">
+   <img src="./.github/support.avif" style="border-radius:8px" width="250">
+</a>
+
+[NodeSupport](https://github.com/NodeSeekDev/NodeSupport)赞助了本项目
+</div>
 
 ## 版权
 
