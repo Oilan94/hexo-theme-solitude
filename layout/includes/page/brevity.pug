@@ -1,22 +1,26 @@
 include ../widgets/page/banner
 if theme.brevity.enable
+    #brevity_page
+      .author-info
+        .msg
+          .avatar
+              a.brevity-avatar(href=url_for('/about'))
+                img(src=theme.aside.my_card.author.img)
+          .brevity-name=config.author
+        .desc=theme.aside.my_card.description
     #bber
         section.timeline.page-1
             ul.list.waterfall
                 each item in site.data.brevity.slice(0, theme.brevity.strip)
                     li.item
-                        if theme.brevity.style === 2
+                        if theme.brevity.style === 1
                             .meta
                                 img.avatar(src=theme.aside.my_card.author.img)
-                                .info
-                                    span.bber_nick= config.author
-                                    time.datetime.bber_date(datetime=moment(item.date).format())
-                                if theme.comment.use && item.content
-                                    a.bber-reply.goComment(onclick=`sco.toTalk('${item.content}')`)
-                                        i.solitude.fas.fa-comment
 
                         #bber-content
-                            p.datacont= item.content
+                            .info
+                                span.bber_nick= config.author
+                            p.datacont!= item.content
                             if item.image
                                 .bber-content-img
                                     each img in item.image
@@ -39,17 +43,14 @@ if theme.brevity.enable
                                     iframe(src='//youtube.com/embed/' + item.video.yt scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
                                 if item.video.dy
                                     iframe(src='https://www.tiktok.com/player/v1' + item.video.dy scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
-                        
+
                         if theme.brevity.style === 1
-                            hr
                             .bber-bottom
                                 .bber-info
                                     .bber-info-time
-                                        i.solitude.fas.fa-calendar-day
                                         time.datetime(datetime=moment(item.date).format())
                                     if item.location
                                         .bber-info-location
-                                            i.solitude.fas.fa-location-dot
                                             = item.location
                                     if item.link
                                         a.bber-content-link(href=url_for(item.link) target="_blank")
@@ -58,6 +59,8 @@ if theme.brevity.enable
                                 if theme.comment.use && item.content
                                     a.bber-reply(onclick=`sco.toTalk('${item.content}')`)
                                         i.solitude.fas.fa-comment
+                            hr
+
             #bber-tips
                 if theme.brevity.strip === -1
                     = _p('essay.tip0')
