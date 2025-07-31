@@ -8,10 +8,5 @@ if personalities
             .title2(style=`color:${personalities.color}`)= personalities.type
             .image
                 img.nolazyload(src=personalities.image)
-            .post-tips
-                = _p('about.personalities.tip1') + ' '
-                a(href='https://www.16personalities.com/')= personalities.linkText + ' '
-                = _p('about.personalities.tip2') + ' '
-                a(href=personalities.typeLink)= personalities.typeName
         .author-content-item.myphoto
             img.author-content-img(src=personalities.myphoto, alt="my photo")
