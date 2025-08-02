@@ -34,7 +34,8 @@
     transition .3s
     gap .5rem
     max-height calc(100dvh - 180px)
-    max-width calc(100% - 128px)
+    max-width calc(100% - 64px)
+    height: 800px
 
     +maxWidth1300()
       justify-content center
@@ -53,8 +54,9 @@
       transition-delay .1s
 
   .console-card-group-left
-    width 25%
+    width 40%
     height 100%
+    max-width 900px
 
     +maxWidth900()
       display none
@@ -64,11 +66,13 @@
     flex-direction column
     justify-content center
     height 100%
-    width 40%
+    width 60%
     overflow hidden
+    max-width 900px
 
     +maxWidth900()
       width 100%
+      height 100%
 
   .console-card
     background var(--efu-maskbg)
