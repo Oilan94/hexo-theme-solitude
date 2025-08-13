@@ -12,7 +12,6 @@ mixin katex
 
 div
   script(src=url_for(theme.cdn.utils))
-  script(src=url_for(theme.cdn.main))
   script(src=url_for(theme.cdn.waterfall))
   script(src=url_for(theme.cdn.pjax))
 
@@ -50,6 +49,9 @@ div
       script(src=url_for(theme.cdn.medium_zoom))
     if theme.fancybox
       script(src=url_for(theme.cdn.fancyapps_ui))
+  
+  script(src=url_for(theme.cdn.main))
+  
   if (theme.brevity.home_mini && theme.brevity.enable)
     script(src=url_for(theme.cdn.swiper_js))
 

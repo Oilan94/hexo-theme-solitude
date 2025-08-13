@@ -75,3 +75,7 @@ div#footer-bar
                         
 if theme.comment.use && theme.comment.commentBarrage
     div.comment-barrage.needEndHide
+
+// album pages scripts - 已在body.pug中加载，此处无需重复加载
+// if page.type === 'album' || page.type === 'album_detail'
+//     script(src=url_for('/js/album.js'))

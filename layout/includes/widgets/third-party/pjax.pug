@@ -9,6 +9,9 @@ script.
         analytics: !{google_adsense},
         scrollRestoration: false
     })
+    
+    // 将PJAX挂载到window对象，使其全局可用
+    window.pjax = pjax
 
     document.querySelectorAll('script[data-pjax]').forEach(item => {
         const newScript = document.createElement('script')

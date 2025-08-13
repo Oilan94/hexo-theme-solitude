@@ -187,6 +187,25 @@ const handleThemeChange = (mode) => {
   Object.values(themeChange).forEach((fn) => fn(mode));
 };
 
+  // 确保waterfall函数全局可用
+  if (typeof waterfall === 'undefined') {
+    // 动态加载waterfall函数
+    const script = document.createElement('script');
+    script.src = '/js/third_party/waterfall.min.js';
+    script.onload = () => {
+      // 重新检查并初始化waterfall相关功能
+      if (typeof sco !== 'undefined' && typeof sco.refreshWaterFall === 'function') {
+        setTimeout(() => {
+          sco.refreshWaterFall();
+        }, 100);
+      }
+    };
+    script.onerror = () => {
+      console.error('Failed to load waterfall function');
+    };
+    document.head.appendChild(script);
+  }
+
 const sco = {
   lastWittyWord: "",
   wasPageHidden: false,
@@ -946,6 +965,9 @@ window.refreshFn = () => {
   if (PAGE_CONFIG.toc) toc.init();
   if (lure) tabs.lureAddListener();
   page === "music" && initializeMusicPlayer();
+  
+
+  
   forPostFn();
 };
 
@@ -957,7 +979,94 @@ document.addEventListener("DOMContentLoaded", () => {
     () => (window.onscroll = percent),
     sco.initConsoleState,
   ].forEach((fn) => fn());
+  
+  // 初始化相册相关功能 - 延迟执行确保album.js完全加载
+  setTimeout(() => {
+    if (typeof AlbumManager !== 'undefined') {
+      // 检查是否已经有实例
+      if (window.albumManager && typeof window.albumManager.init === 'function') {
+        window.albumManager.init();
+      } else {
+        // 创建新实例
+        try {
+          const albumManager = new AlbumManager();
+          window.albumManager = albumManager;
+        } catch (error) {
+          console.error('Failed to create AlbumManager instance:', error);
+        }
+      }
+    } else {
+      // 如果AlbumManager还没加载，延迟初始化
+      let retryCount = 0;
+      const maxRetries = 5;
+      
+      const tryInitAlbum = () => {
+        if (typeof AlbumManager !== 'undefined') {
+          // 检查是否已经有实例
+          if (window.albumManager && typeof window.albumManager.init === 'function') {
+            window.albumManager.init();
+          } else {
+            // 创建新实例
+            try {
+              const albumManager = new AlbumManager();
+              window.albumManager = albumManager;
+            } catch (error) {
+              console.error('Failed to create AlbumManager instance:', error);
+            }
+          }
+        } else if (retryCount < maxRetries) {
+          retryCount++;
+          setTimeout(tryInitAlbum, 500);
+        }
+      };
+      
+      setTimeout(tryInitAlbum, 500);
+    }
+  }, 100); // 延迟100ms执行
 });
+
+// 添加PJAX事件监听器，优化相册页面切换
+document.addEventListener('pjax:complete', () => {
+  // 检查是否是相册页面
+  if (document.querySelector('#album_detail') || document.querySelector('#album')) {
+    // 延迟执行，确保DOM完全更新
+    setTimeout(() => {
+      if (typeof AlbumManager !== 'undefined' && window.albumManager) {
+        window.albumManager.refresh();
+      }
+    }, 100);
+  }
+});
+
+// 检查PJAX是否可用
+if (typeof window.pjax !== 'undefined') {
+  // PJAX已可用，无需操作
+} else {
+  // 检查Pjax构造函数是否可用
+  if (typeof Pjax !== 'undefined') {
+    try {
+      // 手动初始化PJAX
+      window.pjax = new Pjax({
+        elements: 'a:not([target="_blank"])',
+        selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff', '.rs_show', '.rs_hide'],
+        cacheBust: false,
+        analytics: false,
+        scrollRestoration: false
+      });
+      
+      // 手动绑定PJAX事件到相册链接
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('a.album-item');
+        if (target && target.href && !target.href.includes('javascript:')) {
+          e.preventDefault();
+          window.pjax.loadUrl(target.href);
+        }
+      });
+    } catch (error) {
+      console.error('Failed to initialize PJAX manually:', error);
+    }
+  }
+}
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
