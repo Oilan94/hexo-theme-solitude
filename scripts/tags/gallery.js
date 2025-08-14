@@ -26,10 +26,15 @@ const gallery = (args, content) => {
         if (m.index === regex.lastIndex) {
             regex.lastIndex++
         }
+        // 解析图片名称和地址（格式：名称|地址）
+        const parts = m[1].split('|')
+        const imageName = parts[0] || m[1]
+        const imageAddress = parts[1] || '未知地点'
+        
         html += `<div class="gallery-item">
-          <img class="nolazyload" src=${m[2]} alt="${m[1]}" />
-          <div class="gallery-item-text">${m[1]}</div>
-          <div class="gallery-reply" onclick="sco.toTalk('${m[1]}')" data-pjax-state>
+          <img class="nolazyload" src=${m[2]} alt="${imageName}" />
+          <div class="gallery-item-address">${imageAddress}</div>
+          <div class="gallery-reply" onclick="sco.toTalk('${imageName}')" data-pjax-state>
             <i class="fas fa-comment"></i>
           </div>
           <!-- TEST MARKER -->
