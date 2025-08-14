@@ -505,7 +505,7 @@ const sco = {
   },
   openAllTags() {
     document
-      .querySelectorAll(".card-allinfo .card-tag-cloud")
+      .querySelectorAll(".card-tag-cloud")
       .forEach((tagCloudElement) => tagCloudElement.classList.add("all-tags"));
     document.getElementById("more-tags-btn")?.remove();
   },

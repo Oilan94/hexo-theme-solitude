@@ -5,10 +5,6 @@ each item in custom
             .nav-button(id=item.id)
                 a.site-page(href=url_for(item.url) || 'javascript:void(0);', onclick=item.onclick, title=item.title || '')
                     i.solitude(class=item.icon || '')
-    else if item.id === 'theme_button'
-        .nav-button.hide-on-mobile(id=item.id)
-            a.site-page(href=url_for(item.url) || 'javascript:void(0);', onclick=item.onclick, title=item.title || '')
-                i.solitude(class=item.icon || '')
     else
         .nav-button(id=item.id)
             a.site-page(href=url_for(item.url) || 'javascript:void(0);', onclick=item.onclick, title=item.title || '')
