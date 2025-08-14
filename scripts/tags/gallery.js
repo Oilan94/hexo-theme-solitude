@@ -26,7 +26,14 @@ const gallery = (args, content) => {
         if (m.index === regex.lastIndex) {
             regex.lastIndex++
         }
-        html += `<div class="gallery-item"><img class="nolazyload" src=${m[2]} alt="${m[1]}" /></div>`
+        html += `<div class="gallery-item">
+          <img class="nolazyload" src=${m[2]} alt="${m[1]}" />
+          <div class="gallery-item-text">${m[1]}</div>
+          <div class="gallery-reply" onclick="sco.toTalk('${m[1]}')" data-pjax-state>
+            <i class="fas fa-comment"></i>
+          </div>
+          <!-- TEST MARKER -->
+        </div>`
     }
     return `<div class="gallery-container waterfall">
         ${html}

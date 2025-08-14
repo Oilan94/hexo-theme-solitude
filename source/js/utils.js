@@ -139,7 +139,7 @@
           Fancybox.bind("[data-fancybox]", {
             Hash: false,
             animated: true,
-            Thumbs: { showOnStart: false },
+            Thumbs: { showOnStart: true },
             Images: { Panzoom: { maxScale: 4 } },
             Carousel: { transition: "slide" },
             Toolbar: {

@@ -19,8 +19,10 @@ include ../widgets/page/banner
                     if item.image
                       .album-container-img
                         each iten, indey in item.image
-                          a.album-content-img(href=iten, target="_blank", data-fancybox="gallery", data-caption="")
-                            img(src=iten)
+                          - let imgUrl = typeof iten === 'string' ? iten : iten.url
+                          - let imgDesc = typeof iten === 'string' ? item.content : iten.desc
+                          a.album-content-img(href=imgUrl, target="_blank", data-fancybox="gallery", data-caption=imgDesc)
+                            img(src=imgUrl, alt=imgDesc)
                         .album-content-noimg
                         .album-content-noimg
                         .album-content-noimg
