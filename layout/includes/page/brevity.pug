@@ -34,15 +34,19 @@ if theme.brevity.enable
                                 meting-js(server=item.aplayer.server type="song" id=item.aplayer.id mutex="true" preload="none" theme="var(--efu-main)" data-lrctype="0")
 
                         if item.video
-                            .bber-video
-                                if item.video.player
+                            if item.video.player
+                                .bber-video
                                     video(src=item.video.player controls="controls" style="object-fit: cover;")
-                                if item.video.bilibili
+                            if item.video.bilibili
+                                .bber-video
                                     iframe(src='//player.bilibili.com/player.html?autoplay=0&bvid=' + item.video.bilibili scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
-                                if item.video.yt 
+                            if item.video.yt 
+                                .bber-video
                                     iframe(src='//youtube.com/embed/' + item.video.yt scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
-                                if item.video.tt
+                            if item.video.tt
+                                .bber-video
                                     iframe(src='https://www.tiktok.com/player/v1' + item.video.tt scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true")
+
 
                         if theme.brevity.style === 1
                             .bber-bottom
