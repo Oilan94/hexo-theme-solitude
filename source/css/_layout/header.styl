@@ -111,6 +111,18 @@
           align-items center
           justify-content center
           border-radius 40px
+          background transparent
+          color var(--efu-fontcolor)
+          transition background 0.15s ease, transform 0.15s ease
+          -webkit-tap-highlight-color transparent
+          -webkit-touch-callout none
+          -webkit-user-select none
+          touch-action manipulation
+
+          &:active
+            background var(--efu-fontcolor)
+            color var(--efu-card-bg)
+            transform scale(0.95)
 
           i
             font-size 20px

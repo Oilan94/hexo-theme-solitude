@@ -31,39 +31,3 @@ include ./head/config.pug
 // page-config head
 include ./head/page_config
 
-// 移动端触摸反馈修复 - 内联样式确保最高优先级
-style.
-  /* 强制禁用移动端触摸反馈效果 */
-  html body * {
-    -webkit-tap-highlight-color: transparent !important;
-  }
-  
-  html body .nav-button,
-  html body .nav-button a,
-  html body .nav-button button {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -webkit-touch-action: manipulation !important;
-    touch-action: manipulation !important;
-  }
-  
-  html body #comment_button,
-  html body #comment_button a,
-  html body #theme_button,
-  html body #theme_button a {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -webkit-touch-action: manipulation !important;
-    touch-action: manipulation !important;
-  }
-  
-  /* 移动端特定样式 */
-  @media (max-width: 768px) {
-    html body .nav-button a:active {
-      -webkit-tap-highlight-color: transparent !important;
-      transform: scale(0.95) !important;
-      opacity: 0.8 !important;
-    }
-  }
