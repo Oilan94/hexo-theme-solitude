@@ -43,6 +43,7 @@ div#sidebar(style="zoom: 1;")
                 each tag in site.tags.find({ parent: { $exists: false } }).data
                     a(href=url_for(tag.path))= tag.name
                         sup= tag.length
+            button.tag-expand-btn(type="button" onclick="toggleTagCloud(this)") -- 展开更多标签 --
         if theme.wordcount && theme.aside.siteinfo.wordcount
             span.sidebar-menu-item-title= __('sidebar.siteinfo')
             .webinfo

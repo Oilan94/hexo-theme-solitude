@@ -1032,6 +1032,17 @@ if (sidebarMenus) {
   });
 }
 
+function toggleTagCloud(btn) {
+  const tagCloud = btn.previousElementSibling;
+  if (tagCloud.classList.contains('expanded')) {
+    tagCloud.classList.remove('expanded');
+    btn.textContent = '-- 展开更多标签 --';
+  } else {
+    tagCloud.classList.add('expanded');
+    btn.textContent = '-- 收起 --';
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   [
     addCopyright,
