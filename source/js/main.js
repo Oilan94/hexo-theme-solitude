@@ -971,6 +971,67 @@ window.refreshFn = () => {
   forPostFn();
 };
 
+function updateSidebarMusicToggleIcon(isPlaying) {
+  const icon = document.querySelector('#sidebar-music-toggle i');
+  if (icon) {
+    icon.className = `solitude fas fa-${isPlaying ? 'pause' : 'play'}`;
+  }
+}
+
+function updateSidebarMusicTitleAndIcon() {
+  const title = document.querySelector('.aplayer-title')?.innerText || '';
+  const author = document.querySelector('.aplayer-author')?.innerText || '';
+  const el = document.getElementById('sidebar-music-title');
+  const meting = document.querySelector('meting-js');
+  let displayText = '';
+
+  if (title && author) {
+    displayText = `${title} - ${author}`;
+  } else if (meting && meting.aplayer && meting.aplayer.list && meting.aplayer.list.audios && meting.aplayer.list.audios.length > 0) {
+    const first = meting.aplayer.list.audios[0];
+    displayText = `${first.title || '未知歌曲'} - ${first.author || '未知歌手'}`;
+  } else {
+    displayText = '点击开启音乐之旅';
+  }
+
+  if (el) el.textContent = displayText;
+
+  // 判断播放状态
+  if (meting && meting.aplayer) {
+    updateSidebarMusicToggleIcon(!meting.aplayer.audio.paused);
+  }
+}
+
+function bindSidebarMusicEvents() {
+  const meting = document.querySelector('meting-js');
+  if (meting && meting.aplayer) {
+    meting.aplayer.on('listswitch', updateSidebarMusicTitleAndIcon);
+    meting.aplayer.on('play', () => updateSidebarMusicToggleIcon(true));
+    meting.aplayer.on('pause', () => updateSidebarMusicToggleIcon(false));
+  }
+  updateSidebarMusicTitleAndIcon();
+}
+
+document.addEventListener('DOMContentLoaded', bindSidebarMusicEvents);
+document.getElementById('sidebar-music-capsule')?.addEventListener('click', updateSidebarMusicTitleAndIcon);
+
+// 监听窗口大小变化，切换到移动端时刷新歌曲信息
+window.addEventListener('resize', () => {
+  if (window.innerWidth <= 768) {
+    updateSidebarMusicTitleAndIcon();
+  }
+});
+
+// 监听侧边栏打开时刷新歌曲信息
+const sidebarMenus = document.getElementById('sidebar-menus');
+if (sidebarMenus) {
+  sidebarMenus.addEventListener('transitionend', () => {
+    if (window.innerWidth <= 768 && sidebarMenus.classList.contains('open')) {
+      updateSidebarMusicTitleAndIcon();
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   [
     addCopyright,

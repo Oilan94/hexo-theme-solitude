@@ -23,11 +23,18 @@ div#sidebar(style="zoom: 1;")
                         a(href=url_for(theme.recent_comments.page))
                             .headline=_p('comment.title')
                             include ./widgets/sidebar/comment
-        span.sidebar-menu-item-title= __('sidebar.function')
-        div.sidebar-menu-item
-            span.darkmode_switchbutton.menu-child(onclick="sco.switchDarkMode()")
-                i.solitude.fas.fa-circle-half-stroke
-                span= __('sidebar.darkmode')
+        span.sidebar-menu-item-title 功能
+        div.sidebar-menu-item#sidebar-music-capsule
+            span.menu-child.music-capsule-block
+                span.music-title-ellipsis
+                    span#sidebar-music-title 歌曲信息
+                div.music-capsule-btns
+                    button.menu-child-btn(type="button" onclick="sco.musicSkipBack()")
+                        i.solitude.fas.fa-backward
+                    button.menu-child-btn(type="button" id="sidebar-music-toggle" onclick="sco.musicToggle()")
+                        i.solitude.fas.fa-play
+                    button.menu-child-btn(type="button" onclick="sco.musicSkipForward()")
+                        i.solitude.fas.fa-forward
         include ./widgets/nav/group
         include ./widgets/nav/menu.pug
         span.sidebar-menu-item-title= __('page.tag')
