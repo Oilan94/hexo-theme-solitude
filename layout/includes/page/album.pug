@@ -1,0 +1,25 @@
+// 使用主题现有的banner组件
+include ../widgets/page/banner
+
+#album
+  // 相册列表
+  .album-list
+    each album in site.data.album
+      a.album-item(href=url_for('/' + album.path_name), data-pjax-state)
+        .album-item-cover
+          img(src=album.cover || album.album_list[0].image[0], alt=album.class_name)
+        .album-item-info
+          .album-item-title= album.class_name
+          .album-item-desc= album.description
+        .album-item-meta
+          span.album-item-count
+            i.fas.fa-images
+            | #{album.album_list.length} 张照片
+          span.album-item-date
+            i.fas.fa-calendar-alt
+            | 更新:
+            if album.date
+              - var albumDate = new Date(album.date).toLocaleDateString('zh-CN', {year: 'numeric', month: '2-digit'})
+              | #{albumDate}
+            else
+              | 2025

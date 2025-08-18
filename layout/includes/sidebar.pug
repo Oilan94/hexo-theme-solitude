@@ -23,11 +23,32 @@ div#sidebar(style="zoom: 1;")
                         a(href=url_for(theme.recent_comments.page))
                             .headline=_p('comment.title')
                             include ./widgets/sidebar/comment
-        span.sidebar-menu-item-title= __('sidebar.function')
-        div.sidebar-menu-item
-            span.darkmode_switchbutton.menu-child(onclick="sco.switchDarkMode()")
-                i.solitude.fas.fa-circle-half-stroke
-                span= __('sidebar.darkmode')
+        span.sidebar-menu-item-title 功能
+        div.sidebar-menu-item#sidebar-music-capsule
+            span.menu-child.music-capsule-block
+                span.music-title-ellipsis
+                    span#sidebar-music-title 歌曲名
+                    span#sidebar-music-artist 歌手名
+                div.music-capsule-btns
+                    button.menu-child-btn(type="button" onclick="sco.musicSkipBack()" title="上一曲")
+                        svg(xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24")
+                          g(fill="none")
+                            path(d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z")
+                            path(fill="currentColor" d="m20.43 5.865l.078.699l.072.767l.036.448l.051.75l.03.55l.038.894l.019.641l.012.675l.004.707l-.004.707l-.012.675l-.019.641l-.024.606l-.028.569l-.05.78l-.035.47l-.09.986l-.079.698a1.332 1.332 0 0 1-1.844 1.065l-.49-.213l-.846-.386l-.62-.298l-.458-.226l-.748-.381l-.538-.283l-.566-.306l-.594-.329l-.619-.353l-.615-.36l-.582-.349l-.809-.5l-.73-.47l-.443-.292l-.406-.274l-.54-.373l-.587-.42l-.43-.319a1.332 1.332 0 0 1 .002-2.13l.325-.242l.422-.306l.517-.363l.607-.414l.694-.458l.51-.327l.546-.342l.581-.355l.617-.366l.32-.186q.312-.18.613-.349l.588-.326l.563-.304l.793-.414l.725-.365l.442-.215l.597-.283l.802-.362l.355-.154a1.332 1.332 0 0 1 1.846 1.065ZM6 5a1 1 0 0 1 .993.883L7 6v12a1 1 0 0 1-.883.993L6 19H5a1 1 0 0 1-.993-.883L4 18V6a1 1 0 0 1 .883-.993L5 5z")
+                    button.menu-child-btn(type="button" id="sidebar-music-toggle" onclick="sco.musicToggle()" title="播放/暂停")
+                        svg#sidebar-music-svg-play(xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" style="display:block")
+                          g(fill="none" fill-rule="evenodd")
+                            path(d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z")
+                            path(fill="currentColor" d="M5.669 4.76a1.47 1.47 0 0 1 2.04-1.177c1.062.454 3.442 1.533 6.462 3.276c3.021 1.744 5.146 3.267 6.069 3.958c.788.591.79 1.763.001 2.356c-.914.687-3.013 2.19-6.07 3.956c-3.06 1.766-5.412 2.832-6.464 3.28c-.906.387-1.92-.2-2.038-1.177c-.138-1.142-.396-3.735-.396-7.237c0-3.5.257-6.092.396-7.235")
+                        svg#sidebar-music-svg-pause(xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" style="display:none")
+                          g(fill="none")
+                            path(d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z")
+                            path(fill="currentColor" d="M7 5a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1m10 0a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1")
+                    button.menu-child-btn(type="button" onclick="sco.musicSkipForward()" title="下一曲")
+                        svg(xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24")
+                          g(fill="none")
+                            path(d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z")
+                            path(fill="currentColor" d="M3.569 5.865A1.332 1.332 0 0 1 5.415 4.8l.646.283l.511.233l.597.283l.676.331l.49.249l.793.414l.564.304l.588.326l.613.349l.633.37l.599.361l.564.349l.778.496l.694.458l.607.414l.517.363l.541.394l.206.154c.71.535.71 1.594.001 2.13l-.43.319l-.273.198l-.664.465l-.595.404l-.443.292l-.73.47l-.81.5l-.581.35l-.615.36l-.62.352l-.593.33l-.566.305l-.538.283l-.748.381l-.673.331l-.773.364l-.744.332l-.224.096a1.332 1.332 0 0 1-1.844-1.065l-.08-.698l-.071-.767l-.053-.689l-.05-.78l-.028-.57l-.024-.605l-.019-.64l-.015-1.026v-.715l.015-1.024l.03-.948l.026-.587l.03-.55l.052-.75l.054-.657l.07-.722zM19 5a1 1 0 0 1 .993.883L20 6v12a1 1 0 0 1-.883.993L19 19h-1a1 1 0 0 1-.993-.883L17 18V6a1 1 0 0 1 .883-.993L18 5z")
         include ./widgets/nav/group
         include ./widgets/nav/menu.pug
         span.sidebar-menu-item-title= __('page.tag')
@@ -36,6 +57,8 @@ div#sidebar(style="zoom: 1;")
                 each tag in site.tags.find({ parent: { $exists: false } }).data
                     a(href=url_for(tag.path))= tag.name
                         sup= tag.length
+            button.tag-expand-btn(type="button" onclick="toggleTagCloud(this)") -- 展开更多标签 --
+        div(style="height:20px;")
         if theme.wordcount && theme.aside.siteinfo.wordcount
             span.sidebar-menu-item-title= __('sidebar.siteinfo')
             .webinfo

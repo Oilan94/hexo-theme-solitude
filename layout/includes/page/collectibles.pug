@@ -1,0 +1,86 @@
+// ✅ 获取数据源名称
+- var $data = page.data
+- var collectibles = site.data[$data]
+
+// ✅ 分页设置
+- const pageSize = collectibles.Page_size || 10
+- const totalPages = Math.max(1, Math.ceil(collectibles.data_list.items.length / pageSize))
+
+include ../widgets/page/banner
+
+if collectibles && collectibles.data_list && collectibles.data_list.items
+  #collectibles
+    each item, itemIndex in collectibles.data_list.items.slice(0, pageSize)
+      .collectibles-item
+        .collectibles-picture
+          img(src=item.image, data-lazy-src=item.image, loading="lazy", alt=item.title)
+        .collectibles-info
+          div
+            a(href=item.alt, target="_blank")= item.title
+          .collectibles-meta= item.meta
+          .collectibles-rating= item.mark
+          .collectibles-comment= item.comment
+
+    if collectibles.data_list.items.length > pageSize
+      .collectibles-pagination
+        a.collectibles-button(href="#", onclick='showPage(1); return false;') 首页
+        a.collectibles-button(href="#", onclick='showPage(Math.max(getCurrentPage() - 1, 1)); return false;') 上一页
+        span.collectibles-page-num(id="page-num") 1 / #{totalPages}
+        a.collectibles-button(href="#", onclick='showPage(Math.min(getCurrentPage() + 1, ' + totalPages + ')); return false;') 下一页
+        a.collectibles-button(href="#", onclick='showPage(' + totalPages + '); return false;') 末页
+
+    script.
+      function getCurrentPage() {
+        const pageNum = document.getElementById('page-num')?.textContent.split('/')[0].trim();
+        return pageNum ? parseInt(pageNum, 10) : 1;
+      }
+
+      function showPage(page) {
+        const pageSize = !{pageSize};
+        const allItems = !{JSON.stringify(collectibles.data_list.items || [])};
+        const totalPages = Math.max(1, Math.ceil(allItems.length / pageSize));
+        const start = (page - 1) * pageSize;
+        const end = Math.min(start + pageSize, allItems.length);
+
+        const container = document.getElementById('collectibles');
+        const pagination = document.querySelector('.collectibles-pagination');
+
+        if (container) {
+          const items = container.getElementsByClassName('collectibles-item');
+          for (let i = items.length - 1; i >= 0; i--) {
+            items[i].remove();
+          }
+
+          allItems.slice(start, end).forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'collectibles-item';
+            div.innerHTML = `
+              <div class="collectibles-picture">
+                <img src="${item.image}" data-lazy-src="${item.image}" loading="lazy" alt="${item.title}">
+              </div>
+              <div class="collectibles-info">
+                <div><a href="${item.alt}" target="_blank">${item.title}</a></div>
+                <div class="collectibles-meta">${item.meta}</div>
+                <div class="collectibles-rating">${item.mark}</div>
+                <div class="collectibles-comment">${item.comment}</div>
+              </div>
+            `;
+            container.insertBefore(div, pagination);
+          });
+        }
+
+        const pageNumElement = document.getElementById('page-num');
+        if (pageNumElement) {
+          pageNumElement.textContent = `${page} / ${totalPages}`;
+        }
+
+        // ✅ 重新初始化懒加载和灯箱
+        if (typeof window.refreshFn === 'function') {
+          window.refreshFn();
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => showPage(1));
+else
+  h3 Error:Unable to load album data.
+  p Please check your yml file.

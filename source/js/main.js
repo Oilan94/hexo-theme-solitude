@@ -187,6 +187,25 @@ const handleThemeChange = (mode) => {
   Object.values(themeChange).forEach((fn) => fn(mode));
 };
 
+  // 确保waterfall函数全局可用
+  if (typeof waterfall === 'undefined') {
+    // 动态加载waterfall函数
+    const script = document.createElement('script');
+    script.src = '/js/third_party/waterfall.min.js';
+    script.onload = () => {
+      // 重新检查并初始化waterfall相关功能
+      if (typeof sco !== 'undefined' && typeof sco.refreshWaterFall === 'function') {
+        setTimeout(() => {
+          sco.refreshWaterFall();
+        }, 100);
+      }
+    };
+    script.onerror = () => {
+      console.error('Failed to load waterfall function');
+    };
+    document.head.appendChild(script);
+  }
+
 const sco = {
   lastWittyWord: "",
   wasPageHidden: false,
@@ -958,6 +977,195 @@ window.refreshFn = () => {
   forPostFn();
 };
 
+// =======================
+// 侧边栏音乐菜单功能
+// =======================
+
+// 同步侧边栏音乐菜单的播放/暂停图标显示
+function updateSidebarMusicToggleIcon(isPlaying) {
+  const playSvg = document.getElementById('sidebar-music-svg-play');
+  const pauseSvg = document.getElementById('sidebar-music-svg-pause');
+  if (playSvg && pauseSvg) {
+    playSvg.style.display = isPlaying ? 'none' : 'block';
+    pauseSvg.style.display = isPlaying ? 'block' : 'none';
+  }
+}
+
+// 刷新侧边栏音乐菜单的歌曲标题、歌手信息及播放状态
+function updateSidebarMusicTitleAndIcon() {
+  const meting = document.querySelector('meting-js');
+  const titleEl = document.getElementById('sidebar-music-title');
+  const artistEl = document.getElementById('sidebar-music-artist');
+  let displayTitle = '';
+  let displayArtist = '';
+
+  if (meting && meting.aplayer && meting.aplayer.list && meting.aplayer.list.audios.length > 0) {
+    const index = meting.aplayer.list.index;
+    let current = meting.aplayer.list.audios[index];
+    if (!current || !current.name) {
+      current = meting.aplayer.list.audios[0];
+    }
+    displayTitle = current.name || '';
+    displayArtist = current.artist || '';
+  }
+
+  if (displayTitle && titleEl) titleEl.textContent = displayTitle;
+  if (displayArtist && artistEl) artistEl.textContent = displayArtist;
+  if (meting && meting.aplayer) {
+    updateSidebarMusicToggleIcon(!meting.aplayer.audio.paused);
+  }
+}
+
+// 绑定侧边栏音乐菜单事件，使菜单随播放器状态实时更新
+function bindSidebarMusicEvents() {
+  const meting = document.querySelector('meting-js');
+  if (meting && meting.aplayer) {
+    meting.aplayer.on('listswitch', updateSidebarMusicTitleAndIcon);
+    meting.aplayer.on('play', () => updateSidebarMusicToggleIcon(true));
+    meting.aplayer.on('pause', () => updateSidebarMusicToggleIcon(false));
+  }
+  updateSidebarMusicTitleAndIcon();
+}
+
+// 页面加载或点击侧边栏音乐菜单时刷新歌曲信息
+document.addEventListener('DOMContentLoaded', bindSidebarMusicEvents);
+document.getElementById('sidebar-music-capsule')?.addEventListener('click', updateSidebarMusicTitleAndIcon);
+
+// 侧边栏展开动画结束后刷新歌曲信息，保证显示最新状态
+const sidebarMenus = document.getElementById('sidebar-menus');
+if (sidebarMenus) {
+  sidebarMenus.addEventListener('transitionend', () => {
+    if (window.innerWidth <= 768 && sidebarMenus.classList.contains('open')) {
+      updateSidebarMusicTitleAndIcon();
+    }
+  });
+}
+
+// 为移动端音乐控制按钮添加触摸高亮反馈，按下显示，松手或取消时移除
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.music-capsule-btns .menu-child-btn').forEach(function(btn) {
+    btn.addEventListener('touchstart', function() {
+      btn.classList.add('active');
+    });
+    btn.addEventListener('touchend', function() {
+      setTimeout(function() {
+        btn.classList.remove('active');
+      }, 120);
+    });
+    btn.addEventListener('touchcancel', function() {
+      btn.classList.remove('active');
+    });
+  });
+});
+
+// =======================
+// 右键音乐菜单功能
+// =======================
+
+// 更新右键菜单播放/暂停图标
+function updateRightmenuMusicToggleIcon(forceState) {
+  const playSvg = document.getElementById('rightmenu-music-svg-play');
+  const pauseSvg = document.getElementById('rightmenu-music-svg-pause');
+  let isPlaying = forceState;
+  if (typeof isPlaying === 'undefined') {
+    const meting = document.querySelector('meting-js');
+    isPlaying = !!(meting && meting.aplayer && meting.aplayer.audio && !meting.aplayer.audio.paused);
+  }
+  if (playSvg && pauseSvg) {
+    playSvg.style.display = isPlaying ? 'none' : 'block';
+    pauseSvg.style.display = isPlaying ? 'block' : 'none';
+  }
+}
+if (typeof sco !== 'undefined') {
+  const oldMusicToggle = sco.musicToggle;
+  sco.musicToggle = function() {
+    if (typeof oldMusicToggle === 'function') oldMusicToggle.apply(this, arguments);
+    updateRightmenuMusicToggleIcon();
+  };
+}
+
+// 更新右键菜单歌曲信息
+function updateRightmenuMusicTitleAndIcon(retry = 0) {
+  const meting = document.querySelector('meting-js');
+  const titleEl = document.getElementById('rightmenu-music-title');
+  const artistEl = document.getElementById('rightmenu-music-artist');
+  let displayTitle = '';
+  let displayArtist = '';
+
+  if (meting && meting.aplayer && meting.aplayer.list && meting.aplayer.list.audios.length > 0) {
+    const index = meting.aplayer.list.index;
+    let current = meting.aplayer.list.audios[index];
+    if (!current || !current.name) {
+      current = meting.aplayer.list.audios[0];
+    }
+    displayTitle = current.name || '';
+    displayArtist = current.artist || '';
+  } else if (retry < 3) {
+    setTimeout(() => updateRightmenuMusicTitleAndIcon(retry + 1), 150);
+    return;
+  } else {
+    displayTitle = '';
+    displayArtist = '';
+  }
+
+  if (displayTitle && titleEl) titleEl.textContent = displayTitle;
+  if (displayArtist && artistEl) artistEl.textContent = displayArtist;
+
+  if (meting && meting.aplayer) {
+    updateRightmenuMusicToggleIcon(!meting.aplayer.audio.paused);
+  }
+}
+
+// 初始化右键菜单事件绑定
+function bindRightmenuMusicEvents() {
+  function tryBind() {
+    const meting = document.querySelector('meting-js');
+    if (meting && meting.aplayer) {
+      meting.aplayer.on('listswitch', () => updateRightmenuMusicTitleAndIcon());
+      meting.aplayer.on('play', () => updateRightmenuMusicToggleIcon(true));
+      meting.aplayer.on('pause', () => updateRightmenuMusicToggleIcon(false));
+      updateRightmenuMusicTitleAndIcon();
+      return true;
+    }
+    return false;
+  }
+
+  if (!tryBind()) {
+    const observer = new MutationObserver(() => {
+      if (tryBind()) observer.disconnect();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+}
+
+// 页面加载、点击和右键触发菜单刷新
+document.addEventListener('DOMContentLoaded', bindRightmenuMusicEvents);
+document.getElementById('rightmenu-music-capsule')?.addEventListener('click', updateRightmenuMusicTitleAndIcon);
+document.addEventListener('contextmenu', () => updateRightmenuMusicTitleAndIcon());
+
+
+// 监听右键音乐菜单过渡完成
+const rightmenuMenus = document.getElementById('rightmenu-music-capsule');
+if (rightmenuMenus) {
+  rightmenuMenus.addEventListener('transitionend', () => {
+    if (window.innerWidth <= 768 && rightmenuMenus.classList.contains('open')) {
+      updateRightmenuMusicTitleAndIcon();
+    }
+  });
+}
+
+// 移动端标签云功能改进
+function toggleTagCloud(btn) {
+  const tagCloud = btn.previousElementSibling;
+  if (tagCloud.classList.contains('expanded')) {
+    tagCloud.classList.remove('expanded');
+    btn.textContent = '-- 展开更多标签 --';
+  } else {
+    tagCloud.classList.add('expanded');
+    btn.textContent = '-- 收起 --';
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   [
     addCopyright,
@@ -966,7 +1174,94 @@ document.addEventListener("DOMContentLoaded", () => {
     () => (window.onscroll = percent),
     sco.initConsoleState,
   ].forEach((fn) => fn());
+
+  // 初始化相册相关功能 - 延迟执行确保album.js完全加载
+  setTimeout(() => {
+    if (typeof AlbumManager !== 'undefined') {
+      // 检查是否已经有实例
+      if (window.albumManager && typeof window.albumManager.init === 'function') {
+        window.albumManager.init();
+      } else {
+        // 创建新实例
+        try {
+          const albumManager = new AlbumManager();
+          window.albumManager = albumManager;
+        } catch (error) {
+          console.error('Failed to create AlbumManager instance:', error);
+        }
+      }
+    } else {
+      // 如果AlbumManager还没加载，延迟初始化
+      let retryCount = 0;
+      const maxRetries = 5;
+      
+      const tryInitAlbum = () => {
+        if (typeof AlbumManager !== 'undefined') {
+          // 检查是否已经有实例
+          if (window.albumManager && typeof window.albumManager.init === 'function') {
+            window.albumManager.init();
+          } else {
+            // 创建新实例
+            try {
+              const albumManager = new AlbumManager();
+              window.albumManager = albumManager;
+            } catch (error) {
+              console.error('Failed to create AlbumManager instance:', error);
+            }
+          }
+        } else if (retryCount < maxRetries) {
+          retryCount++;
+          setTimeout(tryInitAlbum, 500);
+        }
+      };
+      
+      setTimeout(tryInitAlbum, 500);
+    }
+  }, 100); // 延迟100ms执行
 });
+
+// 添加PJAX事件监听器，优化相册页面切换
+document.addEventListener('pjax:complete', () => {
+  // 检查是否是相册页面
+  if (document.querySelector('#album_detail') || document.querySelector('#album')) {
+    // 延迟执行，确保DOM完全更新
+    setTimeout(() => {
+      if (typeof AlbumManager !== 'undefined' && window.albumManager) {
+        window.albumManager.refresh();
+      }
+    }, 100);
+  }
+});
+
+// 检查PJAX是否可用
+if (typeof window.pjax !== 'undefined') {
+  // PJAX已可用，无需操作
+} else {
+  // 检查Pjax构造函数是否可用
+  if (typeof Pjax !== 'undefined') {
+    try {
+      // 手动初始化PJAX
+      window.pjax = new Pjax({
+        elements: 'a:not([target="_blank"])',
+        selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff', '.rs_show', '.rs_hide'],
+        cacheBust: false,
+        analytics: false,
+        scrollRestoration: false
+      });
+      
+      // 手动绑定PJAX事件到相册链接
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('a.album-item');
+        if (target && target.href && !target.href.includes('javascript:')) {
+          e.preventDefault();
+          window.pjax.loadUrl(target.href);
+        }
+      });
+    } catch (error) {
+      console.error('Failed to initialize PJAX manually:', error);
+    }
+  }
+}
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {

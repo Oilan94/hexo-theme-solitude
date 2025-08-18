@@ -1,0 +1,49 @@
+// 使用主题现有的banner组件
+include ../widgets/page/banner
+
+#album_detail
+  // 相册内容
+  if site.data.album
+    each i in site.data.album
+      - let path_name = page.path_name === i.path_name
+      
+      if (path_name && i.album_list)
+        // 时间线模式 - 简单Flexbox布局
+        if i.type == 1
+          section.timeline.page-1
+            ul.list
+              each item, index in i.album_list
+                li.item
+                  .album-content
+                    p.datacont= item.content
+                    if item.image
+                      .album-container-img
+                        each iten, indey in item.image
+                          - let imgUrl = typeof iten === 'string' ? iten : iten.url
+                          - let imgDesc = typeof iten === 'string' ? item.content : iten.desc
+                          a.album-content-img(href=imgUrl, target="_blank", data-fancybox="gallery", data-caption=imgDesc)
+                            img(src=imgUrl, alt=imgDesc)
+                        .album-content-noimg
+                        .album-content-noimg
+                        .album-content-noimg
+                  hr
+                  .album-bottom
+                    .album-info
+                      .album-info-time
+                        - var datedata = new Date(item.date).toLocaleDateString('zh-CN', {year: 'numeric', month: '2-digit', day: '2-digit'})
+                        i.fas.fa-camera
+                        time.datatime(datetime=item.date)= datedata
+                      if item.address
+                        .album-info-address
+                          i.fas.fa-location-dot
+                          span=item.address
+                      if item.from 
+                        .album-info-from
+                          i.fas.fa-fire
+                          span=item.from
+                    .album-reply(onclick=`sco.toTalk('${item.content}')`, data-pjax-state)
+                      i.fas.fa-comment
+  else
+    .error-message(style="background: #ffebee; color: #c62828; padding: 20px; margin: 20px; border: 1px solid #ef5350;")
+      h3 Error:Unable to load album data.
+      p Please check your yml file.

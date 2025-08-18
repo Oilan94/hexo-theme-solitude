@@ -38,6 +38,18 @@ mixin pageContent()
             include includes/page/kit
           when 'music'
             include includes/page/music
+          when 'collectibles'
+            include includes/page/collectibles
+          when 'album_detail'
+            include includes/page/album_detail
+          when 'album'
+            include includes/page/album
+          when 'gallery'
+            include includes/widgets/page/banner
+            if page.container
+                include includes/page/default
+            else
+                != page.content
           default
             include includes/page/default
     
