@@ -1,0 +1,113 @@
+#rightMenu
+  .all-menu
+    margin-top: 12px
+
+    &.general
+      padding-top: 12px
+      border-top: 1px solid var(--main-card-border)
+
+    .player
+      width: 100%
+      min-width: 200px
+      padding: 8px
+      margin: 12px 0
+
+      .data
+        display: flex
+        flex-direction: column
+        align-items: center
+        width: 100%
+        margin-bottom: 12px
+
+        span
+          width: 100%
+          padding: 0 8px
+          text-align: center
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
+          line-height: 1.5
+
+          &.menu-music-artist
+            font-size: 14px
+            margin-top: 4px
+            color: var(--main-font-second-color)
+            opacity: 0.8
+
+      .controls
+        display: flex
+        justify-content: center
+        align-items: center
+        gap: 16px
+        margin: 12px 0
+        width: 100%
+
+        .rightMenu-item
+          display: flex
+          align-items: center
+          justify-content: center
+          width: 32px
+          height: 32px
+          border-radius: 50%
+          cursor: pointer
+          transition: all .3s
+          background: transparent
+
+          &:hover
+            background-color: var(--main-color-bg)
+
+          i
+            font-size: 16px
+            color: var(--main-font-color)
+
+      .volume
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: space-between
+        padding: 0 6px
+        margin-top: 1rem
+        width: 100%
+
+        i
+          color: var(--main-font-second-color)
+          font-size: 20px
+          transition: color .3s
+          cursor: pointer
+          margin-right: 12px
+
+        .volume-slider
+          flex: 1
+          height: 8px
+          background-color: var(--main-color-bg)
+          border-radius: 25px
+          -webkit-appearance: none
+          appearance: none
+          outline: none
+          transition: all .3s
+          cursor: pointer
+
+          &::-webkit-slider-thumb
+            -webkit-appearance: none
+            appearance: none
+            width: 12px
+            height: 12px
+            background: var(--main-font-color)
+            border-radius: 50%
+            transition: transform .2s
+            cursor: pointer
+
+            &:hover
+              transform: scale(1.2)
+
+          &::-moz-range-thumb
+            width: 12px
+            height: 12px
+            background: var(--main-font-color)
+            border: none
+            border-radius: 50%
+            transition: transform .2s
+            cursor: pointer
+
+            &:hover
+              transform: scale(1.2)

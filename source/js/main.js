@@ -975,6 +975,7 @@ window.refreshFn = () => {
   if (lure) tabs.lureAddListener();
   page === "music" && initializeMusicPlayer();
   forPostFn();
+  if (is_home && typeof sco.initbbtalk === "function") sco.initbbtalk();
 };
 
 // =======================

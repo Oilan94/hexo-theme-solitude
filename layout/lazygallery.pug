@@ -1,0 +1,12 @@
+extends includes/layout.pug
+
+block content
+  p(style="color:red") lazygallery.pug loaded!
+  - var albumData = site.data.album.find(a => a.type === 3)
+  script.
+    window.LAZYGALLERY_DATA = !{JSON.stringify(albumData ? albumData.album_list : [])};
+  .lazygallery-container
+    #lazygallery-justified
+    button#lazygallery-load-more(type="button") 加载更多
+  script(src="/js/justified-layout.min.js")
+  script(src="/js/lazygallery.js")

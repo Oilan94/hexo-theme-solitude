@@ -50,15 +50,18 @@ div
 
   // UI enhancement scripts
   if theme.lazyload.enable
-    script(async src=url_for(theme.cdn.lazyload))
+    script(defer src=url_for(theme.cdn.lazyload))
   script(defer src=url_for(theme.cdn.snackbar))
   if theme.lightbox
     if theme.mediumZoom
       script(defer src=url_for(theme.cdn.medium_zoom))
     if theme.fancybox
       script(defer src=url_for(theme.cdn.fancyapps_ui))
+  // Swiper
   if (theme.brevity.home_mini && theme.brevity.enable)
     script(defer src=url_for(theme.cdn.swiper_js))
+  // main.js
+  script(defer src=url_for(theme.cdn.main_js))
 
   if theme.post.ai.enable
     script(defer src=url_for(theme.cdn.post_ai))
@@ -107,9 +110,6 @@ div
       != item
 
   .js-pjax
-    if is_home() && theme.brevity.enable && theme.brevity.home_mini
-      script.
-        sco.initbbtalk()
     if page.type === 'brevity' && theme.brevity.enable
       script.
         GLOBAL_CONFIG.lightbox && utils.lightbox(document.querySelectorAll(".bber-content-img img"));

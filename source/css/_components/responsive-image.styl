@@ -1,0 +1,36 @@
+// responsive-image.styl
+// 响应式 + 懒加载图片样式
+
+// 基础响应式图片
+img
+  max-width 100%
+  height auto
+  display block
+  border none
+  vertical-align middle
+
+// 懒加载占位状态
+img.lazyload
+  opacity 0
+  filter blur(8px)  // 模糊占位
+  transition opacity 0.4s ease, filter 0.4s ease
+
+// 图片加载完成后
+img.lazyloaded
+  opacity 1
+  filter blur(0)
+
+// 如果图片加载失败
+img.error
+  opacity 0.6
+  content '❌' // 有的 lazyload 插件会用背景图或占位符，这里只是降透明度
+
+// 可选：包裹图片的容器，避免布局抖动
+.responsive-img-wrapper
+  position relative
+  overflow hidden
+
+  img
+    width 100%
+    height auto
+    display block
